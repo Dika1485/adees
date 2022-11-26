@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2022 at 04:38 AM
+-- Generation Time: Nov 26, 2022 at 07:30 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -40,6 +40,8 @@ CREATE TABLE `absensi` (
 
 INSERT INTO `absensi` (`id`, `tanggal`, `kehadiran`, `ket`) VALUES
 ('K1', '2022-11-21', 'Hadir', ''),
+('K1', '2022-11-24', 'Hadir', ''),
+('K2', '2022-11-24', 'Hadir', ''),
 ('K4', '2022-11-21', 'Hadir', '');
 
 -- --------------------------------------------------------
@@ -101,6 +103,16 @@ CREATE TABLE `jenis_paket` (
   `harga_kiloan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `jenis_paket`
+--
+
+INSERT INTO `jenis_paket` (`id_paket`, `nama_paket`, `estimasi`, `is_setrika`, `harga_kiloan`) VALUES
+('P1', 'Reguler', 48, 0, 5000),
+('P2', 'Reguler + Setrika', 48, 1, 6000),
+('P3', 'Express', 24, 0, 8000),
+('P4', 'Express + Setrika', 24, 1, 9000);
+
 -- --------------------------------------------------------
 
 --
@@ -134,12 +146,21 @@ INSERT INTO `karyawan` (`id`, `nama`, `role`, `pinalti`, `gaji`) VALUES
 --
 
 CREATE TABLE `kerusakan` (
+  `id_kerusakan` char(10) NOT NULL,
   `tanggal` date NOT NULL,
   `barang` varchar(255) NOT NULL,
   `ket` varchar(255) NOT NULL,
-  `id` char(255) NOT NULL,
-  `nominal` int(11) NOT NULL
+  `status` varchar(255) NOT NULL,
+  `id` char(255) DEFAULT NULL,
+  `nominal` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `kerusakan`
+--
+
+INSERT INTO `kerusakan` (`id_kerusakan`, `tanggal`, `barang`, `ket`, `status`, `id`, `nominal`) VALUES
+('KR1', '2022-11-25', 'Mesin Cuci 1', 'Tidak mau jalan', 'Selesai', 'M1', 100000);
 
 -- --------------------------------------------------------
 
@@ -152,6 +173,13 @@ CREATE TABLE `keuangan` (
   `pendapatan` int(11) NOT NULL,
   `pengeluaran` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `keuangan`
+--
+
+INSERT INTO `keuangan` (`tanggal`, `pendapatan`, `pengeluaran`) VALUES
+('2022-11-25', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -177,6 +205,14 @@ CREATE TABLE `mekanik` (
   `nama` varchar(255) NOT NULL,
   `nohp` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `mekanik`
+--
+
+INSERT INTO `mekanik` (`id`, `nama`, `nohp`) VALUES
+('M1', 'Arya', '0889182231'),
+('M2', 'Akbar', '08274333768');
 
 -- --------------------------------------------------------
 
@@ -270,6 +306,7 @@ ALTER TABLE `karyawan`
 -- Indexes for table `kerusakan`
 --
 ALTER TABLE `kerusakan`
+  ADD PRIMARY KEY (`id_kerusakan`),
   ADD KEY `kerusakan_id_foreign` (`id`),
   ADD KEY `kerusakan_tanggal_foreign` (`tanggal`);
 
